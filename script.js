@@ -86,13 +86,6 @@ for (let i = 0; i < cartButtons.length; i++) {
             e.target.style.backgroundColor = '#FFED96';
             e.target.innerText = "Remove From Cart"; 
 
-            // let bgColor = localStorage.getItem("color");
-            // if (bgColor === null) {
-            //     localStorage.setItem('color', e.target.style.backgroundColor)
-            // } else {
-            //     cartButtons[i].style.backgroundColor = bgColor;
-            // }
-          
             
             localStorage.setItem('color', e.target.style.backgroundColor);
             localStorage.setItem('innerText', e.target.innerText);
@@ -105,38 +98,41 @@ for (let i = 0; i < cartButtons.length; i++) {
             e.target.style.backgroundColor = '#FF9A3D';
             e.target.innerText = "Add To Cart"; 
 
-            let itemInCarts = document.querySelectorAll(`.cart-item-row .cart-title`);
+            let itemInCarts = tableContent.getElementsByClassName('cart-title')
             console.log(itemInCarts);
+         
             let productNumbers = localStorage.getItem('cartNumbers');
             //console.log(productNumbers);
             let cartCost = localStorage.getItem("totalCost");
             let cartItems = localStorage.getItem('productsInCart');
             cartItems = JSON.parse(cartItems);
             let productName;
+
+            productName = e.target.parentElement.querySelector('.title').innerText
             //console.log(cartItems);
 
-            for (let i = 0; i < itemInCarts.length; i++) {
-                productName = itemInCarts[i].innerText;
-            }
+           //console.log(productName);
+         
+                
+                    if (productName) {
+                        localStorage.setItem('cartNumbers', productNumbers - 1);
+                        localStorage.setItem('totalCost', cartCost - ( cartItems[productName].price * cartItems[productName].quantity));
+                        
+                        cartTotal.innerText = '₦' + localStorage.getItem('totalCost');
+                    } 
+                
+                    for( let prop in cartItems){
+                        if (cartItems[prop].name === productName) {
+                            delete cartItems[productName]
+                        }
+                    }
 
-            //let currentProduct = productName;
+                    localStorage.setItem('productsInCart', JSON.stringify(cartItems));
+                    
           
-                localStorage.setItem('cartNumbers', productNumbers - 1);
-                localStorage.setItem('totalCost', cartCost - ( cartItems[productName].price * cartItems[productName].quantity));
-                
-                cartTotal.innerText = '₦' + localStorage.getItem('totalCost');
-                delete cartItems[productName];
-                localStorage.setItem('productsInCart', JSON.stringify(cartItems));
-                
-                // localStorage.setItem('color', e.target.style.backgroundColor);
-                // localStorage.setItem('innerText', e.target.innerText);
-
-           
       
              displayCart()
              onLoadCartNumbers()
-           
-            //cartItems[productName].quantity = 1;
             
         }
     });

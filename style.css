@@ -208,7 +208,7 @@ nav{
 .product-item > .title {
     font-weight: bold;
     font-size: 25px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     margin: 20px 0;
     font-family: 'Poppins', sans-serif;
 }
